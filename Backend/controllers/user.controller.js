@@ -1,4 +1,5 @@
 const blacklistTokenModel = require('../models/blacklistToken.model');
+const Captain = require('../models/captain.model');
 const userModel = require('../models/user.model');
 const userService = require('../services/user.service');
 const { validationResult } = require('express-validator');
@@ -13,6 +14,12 @@ module.exports.registerUser = async (req, res, next) => {
 
 
     const { fullName, email, password } = req.body;
+
+    const userAlreadyExit = await Captain.findOne({email});
+
+    if(userAlreadyExit){
+        return res.status(400).json({message: 'User is already Exist...'});
+    }
 
     const hashedPasswrod = await userModel.hashPassword(password);
     console.log("hashPassword:", hashedPasswrod)
@@ -66,7 +73,7 @@ module.exports.getUserProfile = async (req, res, next) => {
 
 module.exports.userLogout = async (req, res, next) => {
     res.clearCookie('token');
-    const token = req.cookies.token || req.headers.authorization.split(' ')[1];
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
 
     await blacklistTokenModel.create({token});
 
