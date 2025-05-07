@@ -1,20 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function UserLogin() {
+const UserLogin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState({});
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log("You are the Next Millionair...");
+    const data = {
+      email: email,
+      password: password,
+    };
+
+    setUserData(data);
+
+    setEmail("");
+    setPassword("");
+  };
+
   return (
     <div className="p-7 flex flex-col justify-between h-screen">
       <div>
-        <img
-          className="w-16 mb-10"
-          src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-          alt="Uber-logo-image"
-        />
-        <form>
+        <div className="flex justify-between items-center mb-10">
+          <Link to= '/'>
+            <img
+              className="w-16"
+              src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
+              alt="Uber-logo-left"
+            />
+          </Link>
+        </div>
+        <form
+          onSubmit={(e) => {
+            submitHandler(e);
+          }}
+        >
           <h3 className="text-lg font-medium mb-2">What's your Email ?</h3>
           <input
             type="email"
             required
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border-0 w-full text-lg placeholder:text-base font-medium"
             placeholder="Email"
           />
@@ -22,26 +52,36 @@ function UserLogin() {
           <input
             type="password"
             required
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border-0 w-full text-lg placeholder:text-base font-medium"
             placeholder="Password"
           />
           <button className="bg-[#111] font-semibold mb-7 rounded px-4 py-2 border-0 w-full text-lg text-white">
             Login
           </button>
-          
-          <p className="text-center font-medium">New here ? <Link to= '/signup' className="text-[#000000ab] font-semibold">Create new Account</Link></p>
+
+          <p className="text-center font-medium">
+            New here ?{" "}
+            <Link to="/signup" className="text-[#000000ab] font-semibold">
+              Create new Account
+            </Link>
+          </p>
         </form>
       </div>
       <div>
-        <button
-          className="bg-white font-semibold mb-7 rounded px-4 py-2  w-full text-lg text-black border border-black
+        <Link
+          to="/captain-signup"
+          className="bg-white flex items-center justify-center font-semibold mb-2 rounded px-4 py-2  w-full text-lg text-black border border-black
 "
         >
           Sign in as Captain
-        </button>
+        </Link>
       </div>
     </div>
   );
-}
+};
 
 export default UserLogin;
