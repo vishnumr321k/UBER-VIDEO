@@ -49,7 +49,7 @@ const captianSchema = new mongoose.Schema({
         capacity:{
             type: Number,
             required: true,
-            min: [3, 'Capacity must be at least 1...']
+            min: [1, 'Capacity must be at least 1...']
         },
         vehicleType:{
             type: String,

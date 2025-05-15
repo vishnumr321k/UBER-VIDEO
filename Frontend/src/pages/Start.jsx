@@ -1,27 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import bgImage from "../assets/bg.jpg"; // Rename your image file if needed
+import bgImage from "../assets/bg.jpg";
 
 function Start() {
   return (
-    <div>
+    <div className="relative h-screen w-full overflow-hidden">
       <div
-        className="h-screen pt-8 flex justify-between flex-col w-full bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${bgImage})` }}
-      >
-        <Link>
-        <img
-          className="w-16 ml-8"
-          src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-          alt="Uber-logo"
-        />
-        </Link>
+      />
+      
+      <div className="relative h-full flex flex-col justify-between">
+        {/* Header */}
+        <div className="pt-8 px-8">
+          <Link to="/">
+            <img
+              className="w-16 md:w-20"
+              src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
+              alt="Uber-logo"
+            />
+          </Link>
+        </div>
         
-        <div className="bg-white pb-7 py-4 px-4">
-          <h2 className="text-2xl font-bold">Get Started with Uber</h2>
+        {/* Bottom Card */}
+        <div className="bg-white w-full px-6 py-8 rounded-t-3xl shadow-lg">
+          <h2 className="text-2xl font-bold mb-6">Get Started with Uber</h2>
           <Link
             to="/login"
-            className="flex items-center justify-center w-full bg-black text-white py-3 rounded mt-5"
+            className="flex items-center justify-center w-full bg-black text-white py-3.5 rounded font-medium hover:bg-gray-800 transition-colors duration-200"
           >
             Continue
           </Link>
