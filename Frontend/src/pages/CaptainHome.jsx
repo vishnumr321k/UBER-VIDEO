@@ -6,4 +6,4 @@ const CaptainHome = () => {
   )
 }
 
-export default CaptainHome 
+export default CaptainHome;

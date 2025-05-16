@@ -1,21 +1,38 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import driveImage from "../assets/pngwing.com.png";
+import { CaptainDataContext } from "../context/CaptainContext";
+import axios from "axios";
 
 function CaptainLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [captainData, setCaptainData] = useState({});
 
-  const submitHandler = (e) => {
+  const { captain, setCaptain } = useContext(CaptainDataContext);
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    const data = {
+    const captainData = {
       email: email,
       password: password,
     };
 
-    console.log("captainData:", data);
-    setCaptainData(data);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/captians/login`,
+        captainData
+      );
+
+      if (response.status === 200) {
+        const data = response.data;
+        setCaptain(data.captain);
+        localStorage.setItem("token", data.token);
+        navigate("/captain-home");
+      }
+    } catch (error) {
+      console.error("Captain Login Error", error);
+    }
 
     setEmail("");
     setPassword("");

@@ -11,10 +11,10 @@ import UserProtectWrapper from "./pages/UserProtectWrapper";
 import { UserDataContext } from "./context/UserContext";
 import UserLogout from "./pages/UserLogout";
 import CaptainHome from "./pages/CaptainHome";
-
+import CaptainProtectWrapper from "./pages/CaptainProtectWrapper";
 
 function App() {
-  const ans = useContext(UserDataContext);
+  
 
   return (
     <div>
@@ -35,11 +35,19 @@ function App() {
         <Route
           path="/user/logout"
           element={
-          <UserProtectWrapper>
-            <UserLogout/>
-          </UserProtectWrapper>}
+            <UserProtectWrapper>
+              <UserLogout />
+            </UserProtectWrapper>
+          }
         ></Route>
-        <Route path="/captain-home" element = {<CaptainHome/>} />
+        <Route
+          path="/captain-home"
+          element={
+            <CaptainProtectWrapper>
+              <CaptainHome />
+            </CaptainProtectWrapper>
+          }
+        />
       </Routes>
     </div>
   );
