@@ -1,34 +1,109 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import bgImage from "../assets/bg.jpg"; // Rename your image file if needed
+import React, { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import 'remixicon/fonts/remixicon.css'
+import LocationSearchPanel from "../components/LocationSearchPanel";
 
-function Home() {
+
+
+const Home = () => {
+  const [pickup, setPickup] = useState("");
+  const [destination, setDestination] = useState("");
+  const [panelOpen, setPanelOpen] = useState(false);
+  const panelRef = useRef(null);
+  const panelCloseRef = useRef(null)
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
+
+  useGSAP(
+    function () {
+      if (panelOpen) {
+        gsap.to(panelRef.current, {
+          height: "70%",
+          padding: 20
+          // opacity: 1
+        });
+        gsap.to(panelCloseRef.current, {
+          opacity: 1
+        })
+      } else {
+        gsap.to(panelRef.current, {
+          height: "0%",
+          padding: 0
+          // opacity: 0
+        });
+        gsap.to(panelCloseRef.current, {
+          opacity: 0
+        })
+      }
+    },
+    [panelOpen]
+  );
+
   return (
-    <div>
-      <div
-        className="h-screen pt-8 flex justify-between flex-col w-full bg-cover bg-center"
-        style={{ backgroundImage: `url(${bgImage})` }}
-      >
-        <Link>
+    <div className="h-screen relative overflow-hidden">
+      <img
+        className="w-16 absolute left-5 top-5"
+        src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
+        alt="Uber Logo"
+      />
+
+      <div className="h-screen w-screen">
+        {/* image for temporary use */}
         <img
-          className="w-16 ml-8"
-          src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-          alt="Uber-logo"
+          className="h-full w-full object-cover"
+          src="https://pbs.twimg.com/media/DmeU2bdXcAArlHc.jpg:large"
+          alt="map image"
         />
-        </Link>
-        
-        <div className="bg-white pb-7 py-4 px-4">
-          <h2 className="text-2xl font-bold text-center">Welcome Brother</h2>
-          {/* <Link
-            to="/login"
-            className="flex items-center justify-center w-full bg-black text-white py-3 rounded mt-5"
+      </div>
+      <div className=" h-screen absolute top-0 w-full flex flex-col justify-end">
+        <div className="max-h-[70%] p-5 bg-white rounded-t-3xl relative overflow-y-auto">
+          <h5 ref={panelCloseRef} onClick={() => {
+            setPanelOpen(false)
+          }} className="absolute opacity-0 right-6 top-4 text-2xl">
+            <i className="ri-arrow-down-wide-line"></i>
+          </h5>
+          <h4 className="text-2xl font-semibold">Find a trip</h4>
+          <form
+            onSubmit={(e) => {
+              submitHandler(e);
+            }}
           >
-            Continue
-          </Link> */}
+            <div className="line absolute h-16 w-0.5 top-[45%] left-9 bg-[#000000b5] rounded-full"></div>
+            <input
+              onClick={() => {
+                setPanelOpen(true);
+              }}
+              value={pickup}
+              onChange={(e) => {
+                setPickup(e.target.value);
+              }}
+              className="bg-[#eee] px-8 py-2 text-lg rounded-lg w-full mt-5"
+              type="text"
+              placeholder="Add a pick-up location"
+            />
+            <input
+              onClick={() => {
+                setPanelOpen(true);
+              }}
+              value={destination}
+              onChange={(e) => {
+                setDestination(e.target.value);
+              }}
+              className="bg-[#eee] px-8 py-2 text-lg rounded-lg w-full mt-3"
+              type="text"
+              placeholder="Enter your destination"
+            />
+          </form>
+        </div>
+        <div ref={panelRef} className="bg-white h-0 overflow-y-auto">
+              <LocationSearchPanel/>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Home;
