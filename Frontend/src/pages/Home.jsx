@@ -113,7 +113,7 @@ const Home = () => {
         {/* image for temporary use */}
         <img
           className="h-full w-full object-cover"
-          src="https://pbs.twimg.com/media/DmeU2bdXcAArlHc.jpg:large"
+          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
           alt="map image"
         />
       </div>
