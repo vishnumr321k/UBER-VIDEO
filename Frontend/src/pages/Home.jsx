@@ -5,17 +5,24 @@ import "remixicon/fonts/remixicon.css";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import VehiclePanel from "../components/VehiclePanel";
 import ConfirmRide from "../components/ConfirmRide";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitingForDriver from "../components/WaitingForDriver";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [panelOpen, setPanelOpen] = useState(false);
   const [vehiclePanel, setVehiclePanel] = useState(false);
-  const [confirmRidePanel, setConfirmRidePanel] = useState(false)
+  const [confirmRidePanel, setConfirmRidePanel] = useState(false);
+  const [vehicleFount, setVehicleFount] = useState(false);
+  const [waitingForDriver, setWaitingForDriver] = useState(false);
+  
   const vehiclePanelRef = useRef(null);
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
   const confirmRidePanelRef = useRef(null);
+  const vehicleFountRef = useRef(null)
+  const waitinForDrivingRef = useRef(null);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -69,6 +76,30 @@ const Home = () => {
       });
     }
   }, [confirmRidePanel]);
+
+  useGSAP(() => {
+    if (vehicleFount) {
+      gsap.to(vehicleFountRef.current, {
+        transform: "translateY(0)",
+      });
+    } else {
+      gsap.to(vehicleFountRef.current, {
+        transform: "translateY(100%)",
+      });
+    }
+  }, [vehicleFount]);
+
+  useGSAP(() => {
+    if (waitingForDriver) {
+      gsap.to(waitinForDrivingRef.current, {
+        transform: "translateY(0)",
+      });
+    } else {
+      gsap.to(waitinForDrivingRef.current, {
+        transform: "translateY(100%)",
+      });
+    }
+  }, [waitingForDriver]);
 
   return (
     <div className="h-screen relative overflow-hidden">
@@ -142,13 +173,27 @@ const Home = () => {
         ref={vehiclePanelRef}
         className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-12 rounded-2xl"
       >
-        <VehiclePanel setConfirmRidePanel = {setConfirmRidePanel} setVehiclePanel = {setVehiclePanel} setPanelOpen = {setPanelOpen} />
+        <VehiclePanel
+          setConfirmRidePanel={setConfirmRidePanel}
+          setVehiclePanel={setVehiclePanel}
+          setPanelOpen={setPanelOpen}
+        />
       </div>
       <div
         ref={confirmRidePanelRef}
         className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-12 rounded-2xl"
       >
-        <ConfirmRide setVehiclePanel = {setVehiclePanel} setConfirmRidePanel = {setConfirmRidePanel} />
+        <ConfirmRide
+          setVehiclePanel={setVehiclePanel}
+          setConfirmRidePanel={setConfirmRidePanel}
+          setVehicleFount = {setVehicleFount}
+        />
+      </div>
+      <div ref={vehicleFountRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-12 rounded-2xl">
+        <LookingForDriver setVehicleFount = {setVehicleFount}  setConfirmRidePanel={setConfirmRidePanel} />
+      </div>
+      <div ref={waitinForDrivingRef} className="fixed w-full z-10 bottom-0  bg-white px-3 py-12 rounded-2xl">
+        <WaitingForDriver setWaitingForDriver = {setWaitingForDriver}  />
       </div>
     </div>
   );

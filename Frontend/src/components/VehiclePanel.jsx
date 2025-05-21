@@ -15,6 +15,7 @@ const VehiclePanel = (props) => {
         <h3 className="text-2xl font-semibold mb-3">Choose a Vehicle</h3>
         <div onClick={() => {
             props.setConfirmRidePanel(true);
+            props.setVehiclePanel(false)
         }} className="flex w-full  border-2 mb-3 cursor-pointer border-gray-100 active:border-black   rounded-xl items-center justify-between">
           <img
             className="h-20 w-28 object-contain ml-2"
