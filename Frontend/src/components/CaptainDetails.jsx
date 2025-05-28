@@ -38,4 +38,4 @@ const CaptainDetails = () => {
   )
 }
 
-export default CaptainDetails
+export default CaptainDetails;

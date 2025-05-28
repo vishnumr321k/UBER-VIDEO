@@ -1,8 +1,8 @@
 import React from "react";
-
+import {Link} from 'react-router-dom';
 const ConfirmRidePopup = (props) => {
   return (
-    <div >
+    <div>
       <h5
         onClick={() => {
           props.setRidePopupPanel(false);
@@ -52,16 +52,13 @@ const ConfirmRidePopup = (props) => {
             </div>
           </div>
         </div>
-        <button
-          onClick={() => {}}
-          className="w-full mt-5 bg-black border hover:bg-white  text-white hover:text-black  font-semibold p-2 rounded-lg"
-        >
+        <Link to='/captain-riding' className="w-full mt-5 bg-black border flex justify-center hover:bg-white  text-white hover:text-black  font-semibold p-2 rounded-lg">
           Confirm
-        </button>
+        </Link>
         <button
           onClick={() => {
             props.setRidePopupPanel(false);
-            props.setConfirmRidePopupPanel(false)
+            props.setConfirmRidePopupPanel(false);
           }}
           className="w-full mt-1 bg-white border hover:bg-black  text-black hover:text-white font-semibold p-2 rounded-lg"
         >
