@@ -1,23 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-const ConfirmRidePopup = (props) => {
-  const [otp, setOtp] = useState("");
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-  };
-
+const FinishRide = (props) => {
   return (
     <div>
       <h5
         onClick={() => {
-          props.setRidePopupPanel(false);
+          props.setFinishRidePanel(false);
         }}
         className="p-3 text-center absolute  w-[93%] top-0 py-1 cursor-pointer"
       >
         <i className="ri-arrow-down-wide-line text-2xl text-[#0000008a]"></i>
       </h5>
-      <h3 className="text-2xl font-semibold">Confirm this ride to Start.</h3>
+      <h3 className="text-2xl font-semibold">Finish this ride.</h3>
       <div className="flex items-center justify-between p-3 bg-gray-100 border rounded-lg mt-4">
         <div className="flex items-center gap-3 ">
           <img
@@ -65,31 +60,17 @@ const ConfirmRidePopup = (props) => {
               submitHandler(e);
             }}
           >
-            <input
-              value={otp}
-              onChange={(e) => {
-                setOtp(e.target.value);
-              }}
-              type="text"
-              className="bg-[#eee] px-6 py-4 font-mono text-lg  rounded-lg w-full mt-3"
-              placeholder="Enter OTP"
-            />
-
             <Link
-              to="/captain-riding"
-              className="w-full mt-5 bg-black text-lg border flex justify-center hover:bg-white  text-white hover:text-black  font-semibold p-3 rounded-lg"
+              to="/captain-home"
+              className="w-full mt-5 bg-black border flex justify-center hover:bg-white  text-white hover:text-black  font-semibold p-3 rounded-lg"
             >
-              Confirm
+              Finish Ride
             </Link>
-            <button
-              onClick={() => {
-                props.setRidePopupPanel(false);
-                props.setConfirmRidePopupPanel(false);
-              }}
-              className="w-full mt-1 bg-white border text-lg hover:bg-black  text-black hover:text-white font-semibold p-3 rounded-lg"
-            >
-              Cancel
-            </button>
+
+            <p className="text-gray-500 mt-6 text-xs text-center">
+              <span className="text-blue-700">Click on</span> finish ride button
+              if you have complete the payment.
+            </p>
           </form>
         </div>
       </div>
@@ -97,4 +78,4 @@ const ConfirmRidePopup = (props) => {
   );
 };
 
-export default ConfirmRidePopup;
+export default FinishRide;

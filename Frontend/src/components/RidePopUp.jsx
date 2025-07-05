@@ -6,7 +6,6 @@ const RidePopUp = (props) => {
       <h5
         onClick={() => {
           props.setRidePopupPanel(false);
-          
         }}
         className="p-3 text-center absolute  w-[93%] top-0 py-1 cursor-pointer"
       >
@@ -53,22 +52,25 @@ const RidePopUp = (props) => {
             </div>
           </div>
         </div>
-        <button
-          onClick={() => {
-            props.setConfirmRidePopupPanel(true)
-          }}
-          className="w-full mt-5 bg-black border hover:bg-white  text-white hover:text-black  font-semibold p-2 rounded-lg"
-        >
-          Accept
-        </button>
-        <button
-          onClick={() => {
-            props.setRidePopupPanel(false)
-          }}
-          className="w-full mt-1 bg-white border hover:bg-black  text-black hover:text-white font-semibold p-2 rounded-lg"
-        >
-          Ignor
-        </button>
+        <div className="flex gap-2 w-full items-center justify-between">
+           <button
+            onClick={() => {
+              props.setRidePopupPanel(false);
+            }}
+            className="w-full mt-5  bg-white border hover:bg-black  text-black hover:text-white font-semibold p-3 px-8 rounded-lg"
+          >
+            Ignor
+          </button>
+          <button
+            onClick={() => {
+              props.setConfirmRidePopupPanel(true);
+            }}
+            className="w-full mt-5 bg-black border hover:bg-white  text-white hover:text-black  font-semibold p-3 px-8  rounded-lg"
+          >
+            Accept
+          </button>
+         
+        </div>
       </div>
     </div>
   );
