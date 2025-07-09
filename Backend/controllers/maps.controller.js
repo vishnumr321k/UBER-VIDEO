@@ -40,3 +40,23 @@ module.exports.getDistanceTime = async (req, res, next) => {
         throw new Error(error);
     }
 }
+
+
+module.exports.getAutoCompleteSuggestions = async (req, res, next) => {
+    const error = validationResult(req);
+
+    if(!error.isEmpty()){
+        return res.status(400).json({error: error.array()});
+    }
+
+    const {input} = req.query;
+
+
+    try {
+        const suggestions = await mapService.getAutoCompleteSuggestions(input);
+        res.status(200).json({suggestions});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({message: 'Failed to field suggestions'});
+    }
+}
