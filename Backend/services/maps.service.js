@@ -12,7 +12,7 @@ module.exports.getAddressCoordinate = async (address) => {
     try {
         const response = await axios.get(url, {
             headers: {
-                'User-Agent': 'ber-clone/1.0 (your-email@example.com)',
+                'User-Agent': 'ber-clone/1.0 vishnumr321k@gmail.com',
                 'Accept-Language': 'en'
             },
             params: {
@@ -94,7 +94,7 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     try {
         const response = await axios.get(url, {
             headers: {
-                'User-Agent': 'ber-clone/1.0 vishnu1@gmail.com',
+                'User-Agent': 'ber-clone/1.0 vishnumr321k@gmail.com',
                 'Accept-Language': 'en'
             },
             params: {
