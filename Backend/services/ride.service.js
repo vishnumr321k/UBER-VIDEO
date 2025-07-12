@@ -1,5 +1,7 @@
 const rideModel = require('../models/ride.model');
 const { getDistanceTime } = require('../services/maps.service');
+const crypto = require('crypto');
+
 
 async function getFare(pickup, destination) {
     if (!pickup || !destination) {
@@ -32,8 +34,18 @@ async function getFare(pickup, destination) {
         motorcycle: baseFare.motorcycle + (distanceTime.distance_km * perKmRate.motorcycle) + (distanceTime.duration_min * perMinuteRate.motorcycle)
     };
 
-
     return fare;
+}
+
+module.exports.getFare = getFare;
+
+function getOtp(num) {
+    function generateOtp(num) {
+        const otp = crypto.randomInt(Math.pow(10, num - 1), Math.pow(10, num)).toString();
+        return otp;
+    }
+
+    return generateOtp(num);
 }
 
 module.exports.createRide = async ({ user, pickup, destination, vehicleType }) => {
@@ -48,7 +60,9 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
         pickup,
         destination,
         fare: Math.ceil(fare[vehicleType]),
+        otp: getOtp(6),
     });
 
     return ride;
 };
+

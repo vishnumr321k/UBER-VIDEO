@@ -5,7 +5,7 @@ const ConfirmRide = (props) => {
     <div>
       <h5
         onClick={() => {
-          props.setVehiclePanel(true);
+          // props.setVehiclePanel(true);
           props.setConfirmRidePanel(false);
         }}
         className="p-3 text-center absolute  w-[93%] top-0 py-1 cursor-pointer"
@@ -25,25 +25,21 @@ const ConfirmRide = (props) => {
             <i className="ri-map-pin-range-line text-xl"></i>
 
             <div>
-              <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">
-                East Nada, Guruvayur Temple, Guruvayur
-              </p>
+              <h3 className="text-lg font-medium"></h3>
+              <p className="text-sm -mt-1 text-gray-600">{props.pickup}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-5 border-b">
             <i className="ri-map-pin-range-fill text-xl"></i>
             <div className="">
               <h3 className="text-lg font-medium">570/21-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">
-                Kottapadi Center, Guruvayur
-              </p>
+              <p className="text-sm -mt-1 text-gray-600">{props.destination}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-5 ">
             <i className="ri-wallet-3-fill text-xl"></i>
             <div className="">
-              <h3 className="text-lg font-medium">₹193.20</h3>
+              <h3 className="text-lg font-medium">₹{props.fare.car}</h3>
               <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
             </div>
           </div>
@@ -52,6 +48,7 @@ const ConfirmRide = (props) => {
           onClick={() => {
             props.setVehicleFount(true);
             props.setConfirmRidePanel(false);
+            props.createRide();
           }}
           className="w-full mt-5 bg-black text-white font-semibold p-2 rounded-lg"
         >
