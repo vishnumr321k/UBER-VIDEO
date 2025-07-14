@@ -17,8 +17,8 @@ const captianSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,        
-        unique: true,         
+        required: true,
+        unique: true,
         lowercase: true,
         match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email...(Endha mone....😏)']
     },
@@ -27,56 +27,62 @@ const captianSchema = new mongoose.Schema({
         required: true,
         select: false
     },
-    socketId:{
+    socketId: {
         type: String
     },
-    status:{
+    status: {
         type: String,
         enum: ['active', 'inactive'],
         default: 'inactive'
     },
-    vehicle:{
-        color:{
+    vehicle: {
+        color: {
             type: String,
             required: true,
             minlength: [3, 'Color must be at least 3 characters long...'],
         },
-        plate:{
+        plate: {
             type: String,
             required: true,
             minlength: [3, 'Plate must be at least 3 character long...']
         },
-        capacity:{
+        capacity: {
             type: Number,
             required: true,
             min: [1, 'Capacity must be at least 1...']
         },
-        vehicleType:{
+        vehicleType: {
             type: String,
             required: true,
             enum: ['car', 'motorcycle', 'auto']
         }
     },
-    location:{
-        latitude:{
-            type: Number,
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+           
         },
-        longitude:{
-            type: Number
+        coordinates: {
+            type: [Number],  // [lng, lat]
+            
         }
     }
 })
 
-captianSchema.methods.generateAuthToken = function(){
-    const token = jwt.sign({_id: this._id, email: this.email}, process.env.JWT_SECRET, {expiresIn: '24h'});
+captianSchema.index({ location: '2dsphere' });
+
+
+captianSchema.methods.generateAuthToken = function () {
+    const token = jwt.sign({ _id: this._id, email: this.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
     return token;
 }
 
-captianSchema.methods.comparePassword = async function(password) {
+captianSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
 
-captianSchema.statics.hashPassword = async function(password){
+captianSchema.statics.hashPassword = async function (password) {
     return await bcrypt.hash(password, 10);
 }
 

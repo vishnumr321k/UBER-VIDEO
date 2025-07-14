@@ -1,11 +1,8 @@
 const axios = require('axios');
-const { text } = require('express');
-const { distinct } = require('../models/blacklistToken.model');
+const captainModel = require('../models/captain.model');
 
 
 module.exports.getAddressCoordinate = async (address) => {
-    console.log(typeof (address))
-
 
     const url = `https://nominatim.openstreetmap.org/search`;
 
@@ -22,7 +19,7 @@ module.exports.getAddressCoordinate = async (address) => {
                 limit: 1
             }
         });
-        console.log('response:', response);
+
 
         if (response.data.length === 0) {
             throw new Error('No results found..');
@@ -31,7 +28,7 @@ module.exports.getAddressCoordinate = async (address) => {
         const location = response.data[0];
 
         return {
-            lan: parseFloat(location.lat),
+            lat: parseFloat(location.lat),
             lng: parseFloat(location.lon)
         }
     } catch (error) {
@@ -45,17 +42,14 @@ module.exports.getDistanceTime = async (originAddress, destinationAddress) => {
 
     const origin = await module.exports.getAddressCoordinate(originAddress);
     const destination = await module.exports.getAddressCoordinate(destinationAddress);
-    console.log('origin:', origin);
-    console.log('destination:', destination);
 
     const body = {
         coordinates: [
-            [origin.lng, origin.lan],
-            [destination.lng, destination.lan]
+            [origin.lng, origin.lat],
+            [destination.lng, destination.lat]
         ]
     };
 
-    console.log('body:', body);
 
     try {
         const response = await axios.post(
@@ -115,11 +109,24 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
         const suggestions = response.data
             .filter(item => item.display_name.includes('Kerala'))
             .map(place => place.display_name);
-            
-        console.log('suggestions:', suggestions);
+
+
         return suggestions;
     } catch (error) {
         console.log('Nominatim AutoComplete error:', error.message);
         throw new Error(error);
     }
-} 
+}
+
+module.exports.getCaptainInTheRadius = async (lat, lng, radius) => {
+
+    const captain = await captainModel.find({
+        location: {
+            $geoWithin: {
+                $centerSphere: [[lng, lat], radius / 6371]
+            }
+        }
+    });
+    console.log('captain:', captain)
+    return captain;
+};

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import "remixicon/fonts/remixicon.css";
@@ -8,6 +8,8 @@ import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import axios from "axios";
+import { SocketContext } from "../context/SocketContext";
+import { UserDataContext } from "../context/UserContext";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -29,6 +31,15 @@ const Home = () => {
   const confirmRidePanelRef = useRef(null);
   const vehicleFountRef = useRef(null);
   const waitinForDrivingRef = useRef(null);
+
+  const { socket } = useContext(SocketContext);
+  const { user } = useContext(UserDataContext);
+
+  useEffect(() => {
+    if (user) {
+      socket.emit("join", { userType: "user", userId: user._id });
+    }
+  }, [user]);
 
   const handlePickupChage = async (e) => {
     setPickup(e.target.value);
@@ -166,14 +177,10 @@ const Home = () => {
       }
     );
 
-    console.log(response.data.fare);
     setFare(response.data.fare);
   }
 
   async function createRide() {
-    console.log('pickup:', pickup);
-    console.log('destination:', destination);
-    console.log('vehicleType:', vehicleType)
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/rides/create`,
@@ -188,7 +195,6 @@ const Home = () => {
           },
         }
       );
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -222,34 +228,37 @@ const Home = () => {
             <i className="ri-arrow-down-wide-line"></i>
           </h5>
           <h4 className="text-2xl font-semibold">Find a trip</h4>
-          <form
-            onSubmit={(e) => {
-              submitHandler(e);
-            }}
-          >
-            <input
-              onClick={() => {
-                setPanelOpen(true);
-                setActiveField("pickup");
-              }}
-              value={pickup}
-              onChange={handlePickupChage}
-              className="bg-[#eee] px-8 py-2 text-lg rounded-lg w-full mt-5"
-              type="text"
-              placeholder="Add a pick-up location"
-            />
-            <input
-              onClick={() => {
-                setPanelOpen(true);
-                setActiveField("destination");
-              }}
-              value={destination}
-              onChange={handleDestinationChange}
-              className="bg-[#eee] px-8 py-2 text-lg rounded-lg w-full mt-3"
-              type="text"
-              placeholder="Enter your destination"
-            />
+          <form onSubmit={submitHandler}>
+            <div className="relative mt-5">
+              <i className="ri-map-pin-3-line absolute left-3 top-1/2 -translate-y-1/2 text-xl text-gray-600"></i>
+              <input
+                onClick={() => {
+                  setPanelOpen(true);
+                  setActiveField("pickup");
+                }}
+                value={pickup}
+                onChange={handlePickupChage}
+                className="bg-[#eee] px-8 py-2 text-lg rounded-lg w-full pl-10"
+                type="text"
+                placeholder="Add a pick-up location"
+              />
+            </div>
+            <div className="relative mt-3">
+              <i className="ri-map-pin-4-fill absolute left-3 top-1/2 -translate-y-1/2 text-xl text-gray-600"></i>
+              <input
+                onClick={() => {
+                  setPanelOpen(true);
+                  setActiveField("destination");
+                }}
+                value={destination}
+                onChange={handleDestinationChange}
+                className="bg-[#eee] px-8 py-2 text-lg rounded-lg w-full pl-10"
+                type="text"
+                placeholder="Enter your destination"
+              />
+            </div>
           </form>
+
           <button
             onClick={findTrip}
             className="mt-5 bg-black border w-full  text-white   font-semibold p-3 px-10  rounded-lg"
@@ -290,11 +299,6 @@ const Home = () => {
         ref={confirmRidePanelRef}
         className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-12 rounded-2xl"
       >
-        {console.log("Home.jsx: passing to ConfirmRide", {
-          pickup,
-          destination,
-          fare,
-        })}
         <ConfirmRide
           setVehiclePanel={setVehiclePanel}
           setConfirmRidePanel={setConfirmRidePanel}
@@ -303,6 +307,7 @@ const Home = () => {
           pickup={pickup}
           destination={destination}
           fare={fare}
+          selectvehicle={vehicleType}
         />
       </div>
       <div
@@ -312,6 +317,10 @@ const Home = () => {
         <LookingForDriver
           setVehicleFount={setVehicleFount}
           setConfirmRidePanel={setConfirmRidePanel}
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          selectvehicle={vehicleType}
         />
       </div>
       <div

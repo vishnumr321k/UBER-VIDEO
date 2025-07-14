@@ -9,7 +9,7 @@ module.exports.getCoordinates = async (req, res, next) => {
     }
 
     const {address} = req.query;
-    console.log('address:', address);
+ 
 
     try {
         const coordinates = await mapService.getAddressCoordinate(address);
@@ -29,11 +29,11 @@ module.exports.getDistanceTime = async (req, res, next) => {
     }
 
     const {origin, destination} = req.query;
-    console.log( ' {origin, destination}:',{origin, destination})
+    
 
     try {
         const result = await mapService.getDistanceTime(origin, destination);
-        console.log('result:', result);
+       
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({message: error.message});

@@ -2,8 +2,7 @@ import React from "react";
 
 const LocationSearchPanel = ({suggestions, setVehiclePanel, setPanelOpen, setPickup, setDestination, activeField}) => {
   // sample array for location
-  console.log("suggestions:",suggestions);
-  console.log("activeField:", activeField);
+  
   const handleSuggestionChange = (suggestions) => {
     if(activeField === 'pickup'){
       setPickup(suggestions);
@@ -21,8 +20,6 @@ const LocationSearchPanel = ({suggestions, setVehiclePanel, setPanelOpen, setPic
           <div
             key={index}
             onClick={() => {
-              // props.setVehiclePanel(true);
-              // props.setPanelOpen(false);
               handleSuggestionChange(element)
             }}
             className="flex items-center justify-start gap-4 my-2 p-3 border-2  border-gray-100 active:border-black cursor-pointer rounded-xl"

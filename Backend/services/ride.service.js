@@ -59,7 +59,7 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
         user,
         pickup,
         destination,
-        fare: Math.ceil(fare[vehicleType]),
+        fare: Math.round(fare[vehicleType]),
         otp: getOtp(6),
     });
 
