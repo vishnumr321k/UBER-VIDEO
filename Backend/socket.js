@@ -52,9 +52,10 @@ function initializeSocket(server) {
     });
 };
 
-function sentMessageToSocketId(socketId, message) {
-    if (io) {
-        io.to(socketId).emit('message', message);
+function sentMessageToSocketId(socketId, messageObject) {
+    console.log('Captain Socket Id:', socketId);
+    if (io) { 
+        io.to(socketId).emit(messageObject.event, messageObject.data);
     } else {
         console.log('Socket.io not inetialized');
     }

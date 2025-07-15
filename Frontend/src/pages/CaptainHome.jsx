@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopUp from "../components/RidePopUp";
 import { useGSAP } from "@gsap/react";
@@ -7,12 +7,14 @@ import gsap from "gsap";
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import { SocketContext } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CaptainContext";
+import axios from "axios";
 
 const CaptainHome = () => {
-  const [ridePopupPanel, setRidePopupPanel] = useState(true);
+  const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
+  const [ride, setRide] = useState(null);
 
   const { socket } = useContext(SocketContext);
   const { captain } = useContext(CaptainDataContext);
@@ -37,9 +39,43 @@ const CaptainHome = () => {
       }
     };
 
-    const locationInterval = setInterval(updateLoction, 10000);
+    // const locationInterval = setInterval(updateLoction, 10000);
     updateLoction();
-  }, [captain]);
+
+    const handleNewRide = (data) => {
+      console.log(data);
+      setRide(data);
+      setRidePopupPanel(true);
+    };
+
+    socket.on("new-ride", handleNewRide);
+
+    return () => {
+      socket.off("new-ride", handleNewRide);
+    };
+  }, [captain._id]);
+
+  async function confirmRide() {
+    console.log('captain._id:', captain._id)
+    try {
+      const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
+      {
+        rideId: ride._id,
+        captainId: captain._id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
+     console.log(response.data);
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 
   useGSAP(() => {
     if (ridePopupPanel) {
@@ -95,8 +131,10 @@ const CaptainHome = () => {
         className="fixed w-full z-10 bottom-0  bg-white px-3 py-12 rounded-2xl"
       >
         <RidePopUp
+          ride={ride}
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+          confirmRide={confirmRide}
         />
       </div>
 

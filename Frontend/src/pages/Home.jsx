@@ -24,6 +24,7 @@ const Home = () => {
   const [activeField, setActiveField] = useState(null);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
+  // const [passenger, setPassenger] = useState(null);
 
   const vehiclePanelRef = useRef(null);
   const panelRef = useRef(null);
@@ -34,6 +35,10 @@ const Home = () => {
 
   const { socket } = useContext(SocketContext);
   const { user } = useContext(UserDataContext);
+
+  socket.on('ride-confirmed', ride => {
+    setWaitingForDriver(true);
+  })
 
   useEffect(() => {
     if (user) {
@@ -177,7 +182,8 @@ const Home = () => {
       }
     );
 
-    setFare(response.data.fare);
+    console.log(response);
+    setFare(response.data.fare.fare);
   }
 
   async function createRide() {
@@ -308,6 +314,7 @@ const Home = () => {
           destination={destination}
           fare={fare}
           selectvehicle={vehicleType}
+          // passenger= {passenger}
         />
       </div>
       <div

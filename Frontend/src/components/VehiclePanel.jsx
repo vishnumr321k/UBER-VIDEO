@@ -17,7 +17,7 @@ const VehiclePanel = (props) => {
         onClick={() => {
           props.setConfirmRidePanel(true);
           props.setVehiclePanel(false);
-          props.selectvehicle('car');
+          props.selectvehicle("car");
         }}
         className="flex w-full  border-2 mb-3 cursor-pointer border-gray-100 active:border-black   rounded-xl items-center justify-between"
       >
@@ -40,10 +40,13 @@ const VehiclePanel = (props) => {
         </div>
         <h2 className="text-lg font-semibold mr-3">₹{props.fare.car}</h2>
       </div>
-      <div onClick={() => {
-        props.setConfirmRidePanel(true);
-        props.selectvehicle('motorcycle');
-      }} className="flex w-full border-2 cursor-pointer border-gray-100 active:border-black   mb-3 rounded-xl items-center justify-between">
+      <div
+        onClick={() => {
+          props.setConfirmRidePanel(true);
+          props.selectvehicle("motorcycle");
+        }}
+        className="flex w-full border-2 cursor-pointer border-gray-100 active:border-black   mb-3 rounded-xl items-center justify-between"
+      >
         <img
           className="h-20 w-28 object-contain ml-2"
           src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_538,w_956/v1698944322/assets/92/00189a-71c0-4f6d-a9de-1b6a85239079/original/UberMoto-India-Orange.png"
@@ -61,12 +64,17 @@ const VehiclePanel = (props) => {
             Affordable, Motorcycle rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold mr-3">₹{props.fare.motorcycle}</h2>
+        <h2 className="text-lg font-semibold mr-3">
+          ₹{props.fare.motorcycle}
+        </h2>
       </div>
-      <div onClick={() => {
-        props.setConfirmRidePanel(true);
-        props.selectvehicle('auto');
-      }}  className="flex  w-full border-2 cursor-pointer border-gray-100 active:border-black  mb-3 rounded-xl items-center justify-between">
+      <div
+        onClick={() => {
+          props.setConfirmRidePanel(true);
+          props.selectvehicle("auto");
+        }}
+        className="flex  w-full border-2 cursor-pointer border-gray-100 active:border-black  mb-3 rounded-xl items-center justify-between"
+      >
         <img
           className="h-20 w-28 object-contain ml-2"
           src="https://blog.uber-cdn.com/cdn-cgi/image/width=2160,quality=80,onerror=redirect,format=auto/wp-content/uploads/2025/02/uberauto558x372pixelsdesktop-17393418542179-1024x683.webp"

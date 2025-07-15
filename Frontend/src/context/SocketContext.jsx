@@ -5,9 +5,6 @@ export const SocketContext = createContext();
 
 const socket = io(`${import.meta.env.VITE_BASE_URL}`);
 
-if (socket) {
-  console.log("bjjdjdjddkdk", socket);
-}
 const SocketProvider = ({ children }) => {
   useEffect(() => {
     socket.on("connect", () => {

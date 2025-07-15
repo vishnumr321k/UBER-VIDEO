@@ -100,7 +100,7 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
             }
         });
 
-        // console.log('response:', response);
+        console.log('response:', response);
 
         if (!response.data || response.data.length === 0) {
             throw new Error('No suggestions found');
@@ -109,6 +109,7 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
         const suggestions = response.data
             .filter(item => item.display_name.includes('Kerala'))
             .map(place => place.display_name);
+
 
 
         return suggestions;
@@ -127,6 +128,5 @@ module.exports.getCaptainInTheRadius = async (lat, lng, radius) => {
             }
         }
     });
-    console.log('captain:', captain)
     return captain;
 };
