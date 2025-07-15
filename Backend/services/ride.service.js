@@ -82,9 +82,9 @@ module.exports.confirmRide = async (rideId, captain) => {
         throw new Error('Ride id is required');
     }
 
-    console.log('captain:', captain);
+
     
-    console.log('rideId:', rideId);
+   
     await rideModel.findOneAndUpdate({
         _id: rideId,
     }, {
@@ -94,7 +94,9 @@ module.exports.confirmRide = async (rideId, captain) => {
 
     const ride = await rideModel.findOne({
         _id: rideId
-    }).populate('user')
+    }).populate('user').populate('captain')
+
+
 
     console.log('ride:', ride);
 

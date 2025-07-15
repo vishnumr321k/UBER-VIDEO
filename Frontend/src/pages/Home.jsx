@@ -25,6 +25,7 @@ const Home = () => {
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
   // const [passenger, setPassenger] = useState(null);
+  const [ride, setRide] = useState(null);
 
   const vehiclePanelRef = useRef(null);
   const panelRef = useRef(null);
@@ -36,9 +37,11 @@ const Home = () => {
   const { socket } = useContext(SocketContext);
   const { user } = useContext(UserDataContext);
 
-  socket.on('ride-confirmed', ride => {
+  socket.on("ride-confirmed", (ride) => {
+    setVehicleFount(false);
     setWaitingForDriver(true);
-  })
+    setRide(ride);
+  });
 
   useEffect(() => {
     if (user) {
@@ -182,7 +185,7 @@ const Home = () => {
       }
     );
 
-    console.log(response);
+    
     setFare(response.data.fare.fare);
   }
 
@@ -334,7 +337,12 @@ const Home = () => {
         ref={waitinForDrivingRef}
         className="fixed w-full z-10 bottom-0  bg-white px-3 py-12 rounded-2xl"
       >
-        <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
+        <WaitingForDriver
+          ride={ride}
+          setVehicleFount={setVehicleFount}
+          setWaitingForDriver={setWaitingForDriver}
+          waitingForDriver={waitinForDrivingRef}
+        />
       </div>
     </div>
   );
