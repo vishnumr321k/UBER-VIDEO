@@ -1,7 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 
 const Riding = () => {
+  const useLocations = useLocation();
+  const {ride}= useLocations.state || {};
   return (
     <div className="h-screen">
         <Link to= '/home' className="fixed  right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full">
@@ -58,6 +61,13 @@ const Riding = () => {
               </div>
             </div>
           </div>
+          {/* {ride && (
+            <div>
+              <h2>Ride ID: {ride.id}</h2>
+              <p>Pickup Location: {ride.pickup}</p>
+              <p>Destination: {ride.destination}</p>
+            </div>
+          )} */}
           <button className="w-full mt-5 bg-black cursor-pointer text-white font-semibold p-2 rounded-lg">Make a Payment</button>
         </div>
       </div>

@@ -120,7 +120,7 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
 }
 
 module.exports.getCaptainInTheRadius = async (lat, lng, radius) => {
-
+    console.log('Ethi mone ethi ....😎');
     const captain = await captainModel.find({
         location: {
             $geoWithin: {
@@ -128,5 +128,7 @@ module.exports.getCaptainInTheRadius = async (lat, lng, radius) => {
             }
         }
     });
+
+    console.log('captain in map.service:', captain);
     return captain;
 };

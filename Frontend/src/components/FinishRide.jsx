@@ -20,9 +20,9 @@ const FinishRide = (props) => {
             src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/570a1745898621.58408191aee7a.jpg"
             alt="user image"
           />
-          <h2 className="text-xl font-medium">Vishnu</h2>
+          <h2 className="text-xl font-medium">{props.ride?.user.fullName.firstname + ' ' + props.ride?.user.fullName.lastName}</h2>
         </div>
-        <h5 className="text-lg font-semibold">2.2 KM</h5>
+        <h5 className="text-lg font-semibold">{props.ride?.distance} KM</h5>
       </div>
       <div className="flex gap-2 justify-between items-center flex-col">
         <div className="w-full mt-5">
@@ -30,25 +30,25 @@ const FinishRide = (props) => {
             <i className="ri-map-pin-range-line text-xl"></i>
 
             <div>
-              <h3 className="text-lg font-medium">562/11-A</h3>
+              <h3 className="text-lg font-medium"></h3>
               <p className="text-sm -mt-1 text-gray-600">
-                East Nada, Guruvayur Temple, Guruvayur
+                {props.ride?.pickup}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-5 border-b">
             <i className="ri-map-pin-range-fill text-xl"></i>
             <div className="">
-              <h3 className="text-lg font-medium">570/21-A</h3>
+              <h3 className="text-lg font-medium"></h3>
               <p className="text-sm -mt-1 text-gray-600">
-                Kottapadi Center, Guruvayur
+                {props.ride?.destination}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-5 ">
             <i className="ri-wallet-3-fill text-xl"></i>
             <div className="">
-              <h3 className="text-lg font-medium">₹193.20</h3>
+              <h3 className="text-lg font-medium">₹{props.ride?.fare}</h3>
               <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
             </div>
           </div>
