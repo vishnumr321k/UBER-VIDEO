@@ -1,7 +1,26 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FinishRide = (props) => {
+  const navigate = useNavigate();
+  async function endRide() {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/end-ride`,
+      {
+        rideId: props.ride._id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      navigate("/captain-home");
+    }
+  }
   return (
     <div>
       <h5
@@ -20,7 +39,11 @@ const FinishRide = (props) => {
             src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/570a1745898621.58408191aee7a.jpg"
             alt="user image"
           />
-          <h2 className="text-xl font-medium">{props.ride?.user.fullName.firstName + ' ' + props.ride?.user.fullName.lastName}</h2>
+          <h2 className="text-xl font-medium">
+            {props.ride?.user.fullName.firstName +
+              " " +
+              props.ride?.user.fullName.lastName}
+          </h2>
         </div>
         <h5 className="text-lg font-semibold">{props.ride?.distance} KM</h5>
       </div>
@@ -55,23 +78,24 @@ const FinishRide = (props) => {
         </div>
 
         <div className="mt-6 w-full">
-          <form
+          {/* <form
             onSubmit={(e) => {
               submitHandler(e);
             }}
+          > */}
+          <button
+            onClick={endRide}
+            type="button"
+            className="w-full mt-5 bg-black border flex justify-center hover:bg-white  text-white hover:text-black  font-semibold p-3 rounded-lg"
           >
-            <Link
-              to="/captain-home"
-              className="w-full mt-5 bg-black border flex justify-center hover:bg-white  text-white hover:text-black  font-semibold p-3 rounded-lg"
-            >
-              Finish Ride
-            </Link>
+            Finish Ride
+          </button>
 
-            <p className="text-gray-500 mt-6 text-xs text-center">
-              <span className="text-blue-700">Click on</span> finish ride button
-              if you have complete the payment.
-            </p>
-          </form>
+          <p className="text-gray-500 mt-6 text-xs text-center">
+            <span className="text-blue-700">Click on</span> finish ride button
+            if you have complete the payment.
+          </p>
+          {/* </form> */}
         </div>
       </div>
     </div>

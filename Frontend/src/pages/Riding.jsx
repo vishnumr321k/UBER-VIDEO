@@ -1,15 +1,43 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-
+import React, { useContext, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { SocketContext } from "../context/SocketContext";
 
 const Riding = () => {
   const useLocations = useLocation();
-  const {ride}= useLocations.state || {};
+  const { ride } = useLocations.state || {};
+  const { socket } = useContext(SocketContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!socket){
+      return
+    }
+
+    const handleRideEnded = () => {
+      console.log('ride-ended event received');
+      navigate('/home');
+    }
+
+    socket.on('ride-ended', handleRideEnded);
+
+
+    return () => {
+      socket.off('ride-ended', handleRideEnded);
+    };
+  }, [socket, navigate]);
+
+  // socket.on("ride-ended", () => {
+  //   navigate('/home');
+  // });
+
   return (
     <div className="h-screen">
-        <Link to= '/home' className="fixed  right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full">
-            <i className="text-lg font-medium ri-home-4-line"></i>
-        </Link>
+      <Link
+        to="/home"
+        className="fixed  right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full"
+      >
+        <i className="text-lg font-medium ri-home-4-line"></i>
+      </Link>
       <div className="h-1/2">
         <img
           className="h-full w-full object-cover"
@@ -24,7 +52,11 @@ const Riding = () => {
               alt="car"
             />
             <div className="text-right mr-3">
-              <h2 className="text-xl font-medium">{ride?.captain.fullName.firstName + ' ' + ride?.captain.fullName.lastName}</h2>
+              <h2 className="text-xl font-medium">
+                {ride?.captain.fullName.firstName +
+                  " " +
+                  ride?.captain.fullName.lastName}
+              </h2>
               <h4 className="text-xl font-semibold -mt-1 -mb-1">
                 {ride?.captain.vehicle.plate}
               </h4>
@@ -38,9 +70,7 @@ const Riding = () => {
 
                 <div>
                   <h3 className="text-lg font-medium"></h3>
-                  <p className="text-sm -mt-1 text-gray-600">
-                    {ride?.pickup}
-                  </p>
+                  <p className="text-sm -mt-1 text-gray-600">{ride?.pickup}</p>
                 </div>
               </div>
               <div className="flex items-center gap-5 p-5 border-b">
@@ -68,7 +98,9 @@ const Riding = () => {
               <p>Destination: {ride.destination}</p>
             </div>
           )} */}
-          <button className="w-full mt-5 bg-black cursor-pointer text-white font-semibold p-2 rounded-lg">Make a Payment</button>
+          <button className="w-full mt-5 bg-black cursor-pointer text-white font-semibold p-2 rounded-lg">
+            Make a Payment
+          </button>
         </div>
       </div>
     </div>
