@@ -20,7 +20,7 @@ const FinishRide = (props) => {
             src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/570a1745898621.58408191aee7a.jpg"
             alt="user image"
           />
-          <h2 className="text-xl font-medium">{props.ride?.user.fullName.firstname + ' ' + props.ride?.user.fullName.lastName}</h2>
+          <h2 className="text-xl font-medium">{props.ride?.user.fullName.firstName + ' ' + props.ride?.user.fullName.lastName}</h2>
         </div>
         <h5 className="text-lg font-semibold">{props.ride?.distance} KM</h5>
       </div>
