@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import FinishRide from "../components/FinishRide";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import LiveTracking from "../components/LiveTracking";
 
 const CaptainRiding = (props) => {
   const [finishRidePanel, setFinishRidePanel] = useState(false);
@@ -23,8 +24,8 @@ const CaptainRiding = (props) => {
   }, [finishRidePanel]);
 
   return (
-    <div className="h-screen relative">
-      <div className="fixed p-3 top-0 flex items-center justify-between w-screen">
+    <div className="h-screen relative overflow-hidden">
+      <div className="fixed p-3 top-0 flex items-center justify-between w-screen z-30">
         <img
           className="w-16"
           src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
@@ -37,18 +38,14 @@ const CaptainRiding = (props) => {
           <i className="text-lg font-medium ri-logout-box-r-line"></i>
         </Link>
       </div>
-      <div className="h-4/5 ">
-        <img
-          className="h-full w-full object-cover"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-          alt="map image"
-        />
+      <div className="h-4/5 relative z-0">
+         <LiveTracking className="absolute top-0 left-0 w-full h-full" />
       </div>
       <div
         onClick={() => {
           setFinishRidePanel(true);
         }}
-        className="h-1/5 p-6 flex items-center tran justify-between relative rounded-2xl"
+        className="h-1/5 p-6 flex items-center tran justify-between relative rounded-2xl z-20"
       >
         <h5
           onClick={() => {
@@ -65,7 +62,7 @@ const CaptainRiding = (props) => {
       </div>
       <div
         ref={finishRidePanelRef}
-        className="fixed w-full z-10 bottom-0 translate-y-full  bg-white px-3 py-12 rounded-2xl"
+        className="fixed w-full z-30 bottom-0 translate-y-full  bg-white px-3 py-12 rounded-2xl"
       >
         <FinishRide ride={rideData} setFinishRidePanel={setFinishRidePanel} />
       </div>

@@ -8,6 +8,7 @@ import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import { SocketContext } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CaptainContext";
 import axios from "axios";
+import LiveTracking from "../components/LiveTracking";
 
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
@@ -102,8 +103,9 @@ const CaptainHome = () => {
   }, [confirmRidePopupPanel]);
 
   return (
-    <div className="h-screen">
-      <div className="fixed p-3 top-0 flex items-center justify-between w-screen">
+    <div className="h-screen relative overflow-hidden">
+      {/* Header with Logo and Logout - Fixed with higher z-index */}
+      <div className="fixed p-3 top-0 flex items-center justify-between w-screen z-30">
         <img
           className="w-16"
           src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
@@ -111,24 +113,26 @@ const CaptainHome = () => {
         />
         <Link
           to=""
-          className=" h-10 w-10 bg-white flex items-center justify-center rounded-full"
+          className="h-10 w-10 bg-white flex items-center justify-center rounded-full"
         >
           <i className="text-lg font-medium ri-logout-box-r-line"></i>
         </Link>
       </div>
-      <div className="h-3/5">
-        <img
-          className="h-full w-full object-cover"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-          alt="map image"
-        />
+
+      {/* Map Container - Lower z-index */}
+      <div className="h-3/5 relative z-0">
+        <LiveTracking className="absolute top-0 left-0 w-full h-full" />
       </div>
-      <div className="h-2/5 p-6">
+
+      {/* Captain Details Section - Higher z-index */}
+      <div className="h-2/5 p-6 relative z-20 bg-white">
         <CaptainDetails />
       </div>
+
+      {/* Ride Popup Panel */}
       <div
         ref={ridePopupPanelRef}
-        className="fixed w-full z-10 bottom-0  bg-white px-3 py-12 rounded-2xl"
+        className="fixed w-full z-30 bottom-0 translate-y-full bg-white px-3 py-12 rounded-2xl"
       >
         <RidePopUp
           ride={ride}
@@ -138,12 +142,13 @@ const CaptainHome = () => {
         />
       </div>
 
+      {/* Confirm Ride Popup Panel */}
       <div
         ref={confirmRidePopupPanelRef}
-        className="fixed w-full z-10 bottom-0 h-full bg-white px-3 py-12 rounded-2xl"
+        className="fixed w-full z-30 bottom-0 h-full translate-y-full bg-white px-3 py-12 rounded-2xl"
       >
         <ConfirmRidePopup
-        ride = {ride}
+          ride={ride}
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
         />

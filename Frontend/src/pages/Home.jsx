@@ -11,6 +11,7 @@ import axios from "axios";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -94,10 +95,10 @@ const Home = () => {
     }
   };
 
-  socket.on('ride-started', (ride) =>{
-    setWaitingForDriver(false)
-    navigate('/riding', {state:{ride}})
-  })
+  socket.on("ride-started", (ride) => {
+    setWaitingForDriver(false);
+    navigate("/riding", { state: { ride } });
+  });
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -193,7 +194,6 @@ const Home = () => {
       }
     );
 
-    
     setFare(response.data.fare.fare);
   }
 
@@ -220,21 +220,17 @@ const Home = () => {
   return (
     <div className="h-screen relative overflow-hidden">
       <img
-        className="w-16 absolute left-5 top-5"
+        className="w-16 absolute right-5 top-5 z-30"
         src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
         alt="Uber Logo"
       />
 
       <div className="h-screen w-screen">
         {/* image for temporary use */}
-        <img
-          className="h-full w-full object-cover"
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-          alt="map image"
-        />
+        <LiveTracking className="absolute top-0 left-0 w-full h-full" />
       </div>
-      <div className=" h-screen absolute top-0 w-full flex flex-col justify-end">
-        <div className="max-h-[70%] p-5 bg-white rounded-t-3xl relative overflow-y-auto">
+      <div className=" h-screen absolute top-0 w-full flex flex-col justify-end ">
+        <div className="max-h-[70%] p-5 bg-white rounded-t-3xl relative overflow-y-auto z-10">
           <h5
             ref={panelCloseRef}
             onClick={() => {
@@ -283,7 +279,7 @@ const Home = () => {
             Find Trip
           </button>
         </div>
-        <div ref={panelRef} className="bg-white h-0 overflow-y-auto">
+        <div ref={panelRef} className="bg-white h-0 overflow-y-auto z-30">
           <LocationSearchPanel
             suggestions={
               activeField === "pickup"
@@ -314,7 +310,7 @@ const Home = () => {
       </div>
       <div
         ref={confirmRidePanelRef}
-        className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-12 rounded-2xl"
+        className="fixed w-full z-30  bottom-0 translate-y-full bg-white px-3 py-12 rounded-2xl"
       >
         <ConfirmRide
           setVehiclePanel={setVehiclePanel}
